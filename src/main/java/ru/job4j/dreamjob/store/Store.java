@@ -37,12 +37,24 @@ public class Store {
     }
 
     public void savePost(Post post) {
-        post.setId(postId.incrementAndGet());
+        if (post.getId() == 0) {
+            post.setId(postId.incrementAndGet());
+        }
         posts.put(post.getId(), post);
     }
 
     public void saveCandidate(Candidate candidate) {
-        candidate.setId(candidateId.incrementAndGet());
+        if (candidate.getId() == 0) {
+            candidate.setId(candidateId.incrementAndGet());
+        }
         candidates.put(candidate.getId(), candidate);
+    }
+
+    public Post findPostById(int id) {
+        return posts.get(id);
+    }
+
+    public Candidate findCandidateById(int id) {
+        return candidates.get(id);
     }
 }

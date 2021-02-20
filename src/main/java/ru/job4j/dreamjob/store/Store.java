@@ -12,7 +12,7 @@ public class Store {
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
-    private Store(){
+    private Store() {
         posts.put(1, new Post(1, "Junior Java job"));
         posts.put(2, new Post(2, "Middle Java job"));
         posts.put(3, new Post(3, "Senior Java job"));
@@ -32,6 +32,4 @@ public class Store {
     public Collection<Candidate> findAllCandidates() {
         return candidates.values();
     }
-
-
 }

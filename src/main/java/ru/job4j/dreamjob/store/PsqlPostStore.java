@@ -21,7 +21,7 @@ public class PsqlPostStore implements Store<Post> {
     private PsqlPostStore() {
         Properties config = new Properties();
         try (BufferedReader reader = new BufferedReader(
-                new FileReader("src/main/resources/db.properties"))) {
+                new FileReader("db.properties"))) {
             config.load(reader);
             Class.forName(config.getProperty("jdbc.driver"));
         } catch (IOException | ClassNotFoundException e) {

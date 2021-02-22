@@ -2,6 +2,7 @@
 <%@ page import="ru.job4j.dreamjob.store.Store" %>
 <%@ page import="ru.job4j.dreamjob.model.Post" %>
 <%@ page import="ru.job4j.dreamjob.store.MemPostStore" %>
+<%@ page import="ru.job4j.dreamjob.store.PsqlPostStore" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -26,7 +27,7 @@
     String id = request.getParameter("id");
     Post post = new Post(0, "");
     if (id != null) {
-        post = MemPostStore.instOf().findById(Integer.parseInt(id));
+        post = PsqlPostStore.instOf().findById(Integer.parseInt(id));
     }
 %>
 <div class="container pt-3">

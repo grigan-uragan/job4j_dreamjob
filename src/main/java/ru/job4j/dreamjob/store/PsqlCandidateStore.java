@@ -18,7 +18,7 @@ public class PsqlCandidateStore implements Store<Candidate> {
     private PsqlCandidateStore() {
         Properties config = new Properties();
         try (BufferedReader reader =
-                     new BufferedReader(new FileReader("src/main/resources/db.properties"))) {
+                     new BufferedReader(new FileReader("db.properties"))) {
             config.load(reader);
             Class.forName(config.getProperty("jdbc.driver"));
         } catch (IOException | ClassNotFoundException e) {

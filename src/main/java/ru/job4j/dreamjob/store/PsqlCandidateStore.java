@@ -1,6 +1,8 @@
 package ru.job4j.dreamjob.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.dreamjob.model.Candidate;
 
 import java.io.BufferedReader;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class PsqlCandidateStore implements Store<Candidate> {
+    private static final Logger LOG = LoggerFactory.getLogger(PsqlCandidateStore.class);
     private final BasicDataSource pool = new BasicDataSource();
 
     private PsqlCandidateStore() {
@@ -22,7 +25,7 @@ public class PsqlCandidateStore implements Store<Candidate> {
             config.load(reader);
             Class.forName(config.getProperty("jdbc.driver"));
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            LOG.error("Some trouble with download properties file", e);
         }
         pool.setDriverClassName(config.getProperty("jdbc.driver"));
         pool.setUrl(config.getProperty("jdbc.url"));
@@ -46,7 +49,7 @@ public class PsqlCandidateStore implements Store<Candidate> {
                         resultSet.getString("candidate_name")));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("some trouble with database", e);
         }
         return result;
     }
@@ -69,7 +72,7 @@ public class PsqlCandidateStore implements Store<Candidate> {
             statement.setInt(2, element.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("some trouble with database", e);
         }
     }
 
@@ -86,7 +89,7 @@ public class PsqlCandidateStore implements Store<Candidate> {
                 element.setId(resultSet.getInt("candidate_id"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("some trouble with database", e);
         }
         return element;
     }
@@ -105,7 +108,7 @@ public class PsqlCandidateStore implements Store<Candidate> {
                         resultSet.getString("candidate_name"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("some trouble with database", e);
         }
         return result;
     }

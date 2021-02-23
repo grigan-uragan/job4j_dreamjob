@@ -1,6 +1,8 @@
 package ru.job4j.dreamjob.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.dreamjob.model.Post;
 
 import java.io.BufferedReader;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class PsqlPostStore implements Store<Post> {
+    private static final Logger LOG = LoggerFactory.getLogger(PsqlPostStore.class);
     private final BasicDataSource pool = new BasicDataSource();
 
     private PsqlPostStore() {
@@ -25,7 +28,7 @@ public class PsqlPostStore implements Store<Post> {
             config.load(reader);
             Class.forName(config.getProperty("jdbc.driver"));
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            LOG.error("Some trouble with download properties file", e);
         }
         pool.setDriverClassName(config.getProperty("jdbc.driver"));
         pool.setUrl(config.getProperty("jdbc.url"));
@@ -47,7 +50,7 @@ public class PsqlPostStore implements Store<Post> {
                         resultSet.getString("post_name")));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("some trouble with database", e);
         }
         return result;
     }
@@ -64,7 +67,7 @@ public class PsqlPostStore implements Store<Post> {
                 post.setId(resultSet.getInt("post_id"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("some trouble with database", e);
         }
         return post;
     }
@@ -77,7 +80,7 @@ public class PsqlPostStore implements Store<Post> {
             statement.setInt(2, element.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("some trouble with database", e);
         }
     }
 
@@ -104,7 +107,7 @@ public class PsqlPostStore implements Store<Post> {
                         resultSet.getString("post_name"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("some trouble with database", e);
         }
         return result;
     }

@@ -4,6 +4,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import ru.job4j.dreamjob.model.Candidate;
+import ru.job4j.dreamjob.store.PsqlCandidateStore;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -18,17 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UploadServlet extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         List<String> images = new ArrayList<>();
-        for (File name : new File("images").listFiles()) {
-            images.add(name.getName());
+        File[] files = new File("images").listFiles();
+        if (files != null) {
+            for (File file : files) {
+                images.add(file.getName());
+            }
         }
         req.setAttribute("images", images);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/upload.jsp");
-        requestDispatcher.forward(req, resp);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/candidates.do");
+        dispatcher.forward(req, resp);
     }
 
     @Override
@@ -39,6 +43,8 @@ public class UploadServlet extends HttpServlet {
         File repository = (File) context.getAttribute("javax.servlet.context.tempdir");
         factory.setRepository(repository);
         ServletFileUpload upload = new ServletFileUpload(factory);
+        String candidateId = req.getParameter("id");
+        Candidate candidate = PsqlCandidateStore.instOf().findById(Integer.parseInt(candidateId));
         try {
             List<FileItem> items = upload.parseRequest(req);
             File folder = new File("images");
@@ -51,6 +57,9 @@ public class UploadServlet extends HttpServlet {
                     try (FileOutputStream out = new FileOutputStream(file)) {
                         out.write(item.getInputStream().readAllBytes());
                     }
+                    int photoId = PsqlCandidateStore.instOf().savePhoto(file.getPath());
+                    candidate.setPhotoId(photoId);
+                    PsqlCandidateStore.instOf().save(candidate);
                 }
             }
         } catch (FileUploadException e) {

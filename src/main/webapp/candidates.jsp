@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="ru.job4j.dreamjob.store.Store" %>
 <%@ page import="ru.job4j.dreamjob.model.Candidate" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="ru.job4j.dreamjob.servlet.IndexServlet" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!doctype html>
 <html lang="en">
@@ -23,6 +25,7 @@
     <title>Работа мечты</title>
 </head>
 <body>
+
 <div class="container pt-3">
 
     <div class="row">
@@ -46,7 +49,13 @@
                                 </a>
                                 <c:out value="${candidate.name}"/>
                             </td>
+                            <td><a href="<c:url value='/download?name=${map[candidate.photoId]}'/>">Download</a></td>
+                            <td>
+                                <img src="<c:url value='/download?name=${map[candidate.photoId]}'/>" width="100px" height="100px"/>
+                            </td>
+
                         </tr>
+
                     </c:forEach>
                     </tbody>
                 </table>

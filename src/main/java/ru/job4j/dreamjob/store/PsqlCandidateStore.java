@@ -9,10 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class PsqlCandidateStore implements Store<Candidate> {
     private static final Logger LOG = LoggerFactory.getLogger(PsqlCandidateStore.class);
@@ -41,12 +38,31 @@ public class PsqlCandidateStore implements Store<Candidate> {
         List<Candidate> result = new ArrayList<>();
         try (Connection connection = pool.getConnection();
               PreparedStatement statement = connection.prepareStatement(
-                      "SELECT * FROM candidates"
+                      "SELECT * FROM candidates AS c LEFT JOIN"
+                              + " photo AS p ON c.photo_id = p.photo_id"
               )) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 result.add(new Candidate(resultSet.getInt("candidate_id"),
-                        resultSet.getString("candidate_name")));
+                        resultSet.getString("candidate_name"),
+                        resultSet.getInt("photo_id")));
+            }
+        } catch (SQLException e) {
+            LOG.error("some trouble with database", e);
+        }
+        return result;
+    }
+
+    public Map<Integer, String> allImages() {
+        Map<Integer, String> result = new HashMap<>();
+        try (Connection connection = pool.getConnection();
+        PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM photo"
+        )) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                result.put(resultSet.getInt("photo_id"),
+                        resultSet.getString("photo_path"));
             }
         } catch (SQLException e) {
             LOG.error("some trouble with database", e);
@@ -66,10 +82,12 @@ public class PsqlCandidateStore implements Store<Candidate> {
     private void update(Candidate element) {
         try (Connection connection = pool.getConnection();
         PreparedStatement statement = connection.prepareStatement(
-                "UPDATE candidates SET candidate_name = (?) WHERE candidate_id = (?)"
+                "UPDATE candidates SET candidate_name = (?), photo_id = (?)"
+                        + " WHERE candidate_id = (?)"
         )) {
             statement.setString(1, element.getName());
-            statement.setInt(2, element.getId());
+            statement.setInt(2, element.getPhotoId());
+            statement.setInt(3, element.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             LOG.error("some trouble with database", e);
@@ -99,7 +117,8 @@ public class PsqlCandidateStore implements Store<Candidate> {
         Candidate result = null;
         try (Connection connection = pool.getConnection();
         PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM candidates WHERE candidate_id = (?)"
+                "SELECT * FROM candidates AS c LEFT JOIN photo AS p ON c.photo_id = p.photo_id"
+                        + " WHERE candidate_id = (?)"
         )) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -113,11 +132,30 @@ public class PsqlCandidateStore implements Store<Candidate> {
         return result;
     }
 
-    public static Store<Candidate> instOf() {
+    public int savePhoto(String path) {
+        int result = -1;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(
+                     "insert into photo (photo_path) values (?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS
+             )) {
+            statement.setString(1, path);
+            statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                result = resultSet.getInt("photo_id");
+            }
+        } catch (SQLException e) {
+            LOG.error("some trouble with database", e);
+        }
+        return result;
+    }
+
+    public static PsqlCandidateStore instOf() {
         return Lazy.INST;
     }
 
     private static final class Lazy {
-        private static final Store<Candidate> INST = new PsqlCandidateStore();
+        private static final PsqlCandidateStore INST = new PsqlCandidateStore();
     }
 }

@@ -16,6 +16,7 @@ public class CandidateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setAttribute("candidates", PsqlCandidateStore.instOf().findAll());
+        req.setAttribute("map", PsqlCandidateStore.instOf().allImages());
         req.getRequestDispatcher("candidates.jsp").forward(req, resp);
     }
 

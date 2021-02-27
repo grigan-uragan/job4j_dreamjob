@@ -63,7 +63,7 @@ public class PsqlUserStore implements Store<User> {
     public void save(User element) {
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "INSERT INTO users (user_name, user_email, user_passwor)"
+                     "INSERT INTO users (user_name, user_email, user_password)"
                              + "VALUES ((?), (?), (?))")) {
             statement.setString(1, element.getName());
             statement.setString(2, element.getEmail());
@@ -94,5 +94,32 @@ public class PsqlUserStore implements Store<User> {
             LOG.error("Trouble with sql query or database connection", e);
         }
         return null;
+    }
+
+    public User findByEmail(String email) {
+        try (Connection connection = pool.getConnection();
+        PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM users WHERE user_email = (?)"
+        )) {
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return new User(resultSet.getInt("user_id"),
+                        resultSet.getString("user_name"),
+                        resultSet.getString("user_email"),
+                        resultSet.getString("user_password"));
+            }
+        } catch (SQLException e) {
+            LOG.error("Trouble with sql query or database connection", e);
+        }
+        return null;
+    }
+
+    public static PsqlUserStore instOf() {
+        return Lazy.INST;
+    }
+
+    public static final class Lazy {
+        public static final PsqlUserStore INST = new PsqlUserStore();
     }
 }

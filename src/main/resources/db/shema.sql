@@ -2,6 +2,10 @@ create table post (
     post_id serial primary key,
     post_name text
     );
+create table photo (
+    photo_id serial primary key,
+    photo_path text
+);
 create table candidates (
     candidate_id serial primary key,
     candidate_name text,

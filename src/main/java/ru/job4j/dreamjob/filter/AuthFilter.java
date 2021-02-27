@@ -17,7 +17,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String uri = request.getRequestURI();
-        if (uri.endsWith("auth.do")) {
+        if (uri.endsWith("auth.do") || uri.endsWith("reg.do")) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }

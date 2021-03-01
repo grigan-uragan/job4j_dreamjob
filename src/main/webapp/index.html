@@ -8,7 +8,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
-        function validate() {
+        function addRow() {
+        var name = $('#name').val();
+        var surname = $('#surname').val();
+        var male = $('#male').val()
+        var female = $('#female').val()
+        var desc = $('#desc').val();
+        $('#table tr:last').after('<tr><td>' + name +'</td><td>'+ surname +'</td>' +
+            '<td>' + male + female +'</td><td>'+ desc +'</td></tr>')
+        return false;
+    }
+
+    function validate() {
             var name = $('#name').val();
             var surname = $('#surname').val();
             var male = $('#male').val()
@@ -53,12 +64,13 @@
             <label for="desc">Description</label>
             <textarea id="desc" rows="5" class="form-control"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" onclick="validate()">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="validate(), addRow()">Submit</button>
+        <button onclick="addRow()" type="reset" class="btn btn-primary">add row</button>
     </form>
 </div>
 <br>
 <div class="container">
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="table">
         <thead>
         <th>Name</th>
         <th>Surname</th>

@@ -7,12 +7,34 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            var name = $('#name').val();
+            var surname = $('#surname').val();
+            var male = $('#male').val()
+            var female = $('#female').val()
+            var desc = $('#desc').val();
+            if (name === '') {
+                alert('please enter your name');
+            }
+            if (surname ==='') {
+                alert('please enter your surname')
+            }
+            if (male === '' && female === '') {
+                alert('please select your gender')
+            }
+            if (desc === '') {
+                alert('plese enter description')
+            }
+            return false;
+        }
+    </script>
 </head>
 <body>
 
 
 <div class="container">
-    <form action="/action_page.php">
+    <form>
         <div class="form-group">
             <label for="name" > Name</label>
             <input id="name" class="form-control" type="text">
@@ -22,16 +44,16 @@
             <input id="surname" class="form-control" type="text">
         </div>
         <div class="ratio">
-            <label><input type="radio" name="Male">Male</label>
+            <label><input type="radio" name="Male" id="male">Male</label>
         </div>
         <div class="ratio">
-            <label><input type="radio" name="Female">Female</label>
+            <label><input type="radio" name="Female" id="female">Female</label>
         </div>
         <div class="form-group">
             <label for="desc">Description</label>
             <textarea id="desc" rows="5" class="form-control"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="validate()">Submit</button>
     </form>
 </div>
 <br>

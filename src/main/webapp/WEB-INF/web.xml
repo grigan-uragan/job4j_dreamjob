@@ -40,6 +40,10 @@
     <servlet-name>RegServlet</servlet-name>
     <servlet-class>ru.job4j.dreamjob.servlet.RegServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>EmailServlet</servlet-name>
+    <servlet-class>ru.job4j.dreamjob.servlet.EmailServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>PostServlet</servlet-name>
     <url-pattern>/posts.do</url-pattern>
@@ -56,6 +60,7 @@
     <servlet-name>UploadServlet</servlet-name>
     <url-pattern>/upload</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>DownloadServlet</servlet-name>
     <url-pattern>/download</url-pattern>
@@ -67,5 +72,9 @@
   <servlet-mapping>
     <servlet-name>RegServlet</servlet-name>
     <url-pattern>/reg.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EmailServlet</servlet-name>
+    <url-pattern>/email</url-pattern>
   </servlet-mapping>
 </web-app>

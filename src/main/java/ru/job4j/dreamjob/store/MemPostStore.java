@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MemPostStore implements Store<Post> {
     private static final MemPostStore INST = new MemPostStore();
-    private final AtomicInteger postId = new AtomicInteger(4);
+    private final AtomicInteger postId = new AtomicInteger(3);
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
     private MemPostStore() {

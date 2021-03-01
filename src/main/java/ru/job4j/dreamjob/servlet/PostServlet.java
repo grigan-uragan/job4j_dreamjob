@@ -1,7 +1,6 @@
 package ru.job4j.dreamjob.servlet;
 
 import ru.job4j.dreamjob.model.Post;
-import ru.job4j.dreamjob.store.MemPostStore;
 import ru.job4j.dreamjob.store.PsqlPostStore;
 
 import javax.servlet.ServletException;

@@ -1,6 +1,7 @@
 package ru.job4j.dreamjob.servlet;
 
 import ru.job4j.dreamjob.model.Candidate;
+import ru.job4j.dreamjob.store.CityStore;
 import ru.job4j.dreamjob.store.MemCandidateStore;
 import ru.job4j.dreamjob.store.PsqlCandidateStore;
 
@@ -17,6 +18,7 @@ public class CandidateServlet extends HttpServlet {
             throws ServletException, IOException {
         req.setAttribute("candidates", PsqlCandidateStore.instOf().findAll());
         req.setAttribute("map", PsqlCandidateStore.instOf().allImages());
+        req.setAttribute("city", CityStore.instOf().allCities());
         req.getRequestDispatcher("candidates.jsp").forward(req, resp);
     }
 

@@ -55,7 +55,7 @@
             <input id="surname" class="form-control" type="text">
         </div>
         <div class="ratio">
-            <label><input type="radio" name="Male" id="male">Male</label>
+            <label><input type="radio" name="Male" id="male" >Male</label>
         </div>
         <div class="ratio">
             <label><input type="radio" name="Female" id="female">Female</label>
@@ -64,7 +64,7 @@
             <label for="desc">Description</label>
             <textarea id="desc" rows="5" class="form-control"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" onclick="validate(), addRow()">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="return validate(), addRow()">Submit</button>
         <button onclick="addRow()" type="reset" class="btn btn-primary">add row</button>
     </form>
 </div>

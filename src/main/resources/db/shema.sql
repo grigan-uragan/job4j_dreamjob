@@ -17,3 +17,7 @@ create table users (
     user_email text,
     user_password text
 );
+create table city (
+    city_id serial primary key,
+    city_name text
+);

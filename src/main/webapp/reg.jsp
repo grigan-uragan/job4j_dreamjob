@@ -14,12 +14,31 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Работа мечты</title>
 </head>
 <body>
 <div class="container pt-3">
-
+<script>
+    function regValidate() {
+        var name = $('#name').val();
+        var email = $('#email').val();
+        var password = $('#pwd').val();
+        if (name === "") {
+            alert('please enter your name');
+            return false;
+        }
+        if (email === "") {
+            alert('please enter your email');
+            return false;
+        }
+        if (password === "") {
+            alert('please enter your password');
+            return false;
+        }
+        return true;
+    }
+</script>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
@@ -29,17 +48,17 @@
                 <form action="<%=request.getContextPath()%>/reg.do" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="username">
+                        <input type="text" class="form-control" name="username" id="name">
                     </div>
                     <div class="form-group">
                         <label>Почта</label>
-                        <input type="text" class="form-control" name="email">
+                        <input type="text" class="form-control" name="email" id="email">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                        <input type="text" class="form-control" name="password">
+                        <input type="password" class="form-control" name="password" id="pwd">
                     </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <button type="submit" class="btn btn-primary" onclick="return regValidate()">Войти</button>
                 </form>
             </div>
         </div>

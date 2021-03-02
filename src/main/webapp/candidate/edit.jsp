@@ -65,15 +65,7 @@
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
             </div>
-            <div class="card-body">
-                <h2>Добавить фото</h2>
-                <form action="<c:url value='/upload?id='/><%=candidate.getId()%>" method="post" enctype="multipart/form-data">
-                    <div class="checkbox">
-                        <input type="file" name="file">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form>
-            </div>
+
         </div>
     </div>
 </div>

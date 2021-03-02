@@ -66,11 +66,18 @@
                                 </a>
                                 <c:out value="${candidate.name}"/>
                             </td>
-                            <td><a href="<c:url value='/download?name=${map[candidate.photoId]}'/>">Download</a></td>
-                            <td>
-                                <img src="<c:url value='/download?name=${map[candidate.photoId]}'/>" width="100px" height="100px"/>
-                            </td>
-
+                            <c:set var="photo_id" value="${map[candidate.photoId]}"/>
+                            <c:if test="${photo_id != null}">
+                                <td><a href="<c:url value='/download?name=${map[candidate.photoId]}'/>">Download</a></td>
+                                <td>
+                                    <img src="<c:url value='/download?name=${map[candidate.photoId]}'/>" width="100px" height="100px"/>
+                                </td>
+                            </c:if>
+                            <c:if test="${photo_id == null}">
+                                <td>
+                                    <a class="nav-link" href="<c:url value='candidate/candidate_photo.jsp?id=${candidate.id}'/>">Добавить фото</a>
+                                </td>
+                            </c:if>
                         </tr>
 
                     </c:forEach>

@@ -44,6 +44,10 @@
     <servlet-name>EmailServlet</servlet-name>
     <servlet-class>ru.job4j.dreamjob.servlet.EmailServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>JsonServlet</servlet-name>
+    <servlet-class>ru.job4j.dreamjob.servlet.JsonServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>PostServlet</servlet-name>
     <url-pattern>/posts.do</url-pattern>
@@ -60,7 +64,10 @@
     <servlet-name>UploadServlet</servlet-name>
     <url-pattern>/upload</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+    <servlet-name>JsonServlet</servlet-name>
+    <url-pattern>/json</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DownloadServlet</servlet-name>
     <url-pattern>/download</url-pattern>

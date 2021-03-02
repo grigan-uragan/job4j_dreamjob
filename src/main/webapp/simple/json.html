@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>Return JSON</title>
+</head>
+<body>
+<script>
+   function funcSuccess(data) {
+       $('#info').text(data);
+   }
+
+    function sendData() {
+        $.ajax({
+            type:'POST',
+            crossDomain: true,
+            url:'http://localhost:8080/dreamjob/json',
+            data:({id:$('#user_id').val(), name:$('#name').val(), email:$('#email').val(), password:$('#pwd').val()}),
+            dataType:'text',
+            success:funcSuccess
+        });
+    }
+</script>
+<div class="container">
+    <h2>User Data</h2>
+    <form>
+        <div class="form-group">
+            <label for="user_id">id</label>
+            <input id="user_id" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="name">name</label>
+            <input id="name" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="email">email</label>
+            <input id="email" type="email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="pwd">password</label>
+            <input id="pwd" type="password" class="form-control">
+        </div>
+        <button type="reset" class="btn btn-primary" onclick="sendData()">Submit</button>
+    </form>
+    <br>
+    <div>
+        <p id="info"></p>
+    </div>
+</div>
+
+</body>
+</html>
